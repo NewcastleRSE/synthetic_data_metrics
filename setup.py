@@ -7,7 +7,7 @@ requirements = []
 # Include any requirements needed to use your package. You don't need anything that comes as part of the standard Python library
 
 setup(
-    name="synthetic-data-metrics",
+    name="synthmetricstest",
     version="0.0.1",
     author="A. Smith",
     author_email="asmith@gmail.com",
