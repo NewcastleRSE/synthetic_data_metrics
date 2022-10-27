@@ -65,7 +65,7 @@ Build your package using this command: `python3 setup.py sdist bdist_wheel`. Thi
 
 You will then be prompted for your log in details. If there's any errors here, fix them, delete the folders you created in the build step and rerun the build and twine commands. 
 
-Once this runs successfully yu will be able to view the package online.
+Once this runs successfully you will be able to view the package online.
 
 ## Using test package
 In a new terminal, create a virtual environment as above and install your test package using the command provided on the package web page which will look like this:
@@ -88,4 +88,5 @@ To push your code for real use this command:
 `twine upload dist/*`.
 
 Don't forget to update the version number in the setup file each time you do a new version.
+
 

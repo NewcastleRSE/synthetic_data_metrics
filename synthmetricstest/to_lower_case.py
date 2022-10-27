@@ -1,10 +1,10 @@
-def process(lower_case_word):
+def process(upper_case_word):
     '''
-    Print any word in upper case.
+    Print any word in lower case.
     Args:
-        lower_case_word (str): word to convert
+        upper_case_word (str): word to convert
     Returns:
         None
     '''
 
-    print(lower_case_word.upper())
+    print(upper_case_word.upper())

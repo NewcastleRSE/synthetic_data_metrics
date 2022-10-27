@@ -8,7 +8,7 @@ requirements = []
 
 setup(
     name="synthmetricstest",
-    version="0.0.1",
+    version="0.0.2",
     author="A. Smith",
     author_email="asmith@gmail.com",
     description="A package to do something",
