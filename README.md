@@ -7,6 +7,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin ante a
 
 Curabitur a tempus arcu. Maecenas blandit risus quam, quis convallis justo pretium in. Suspendisse rutrum, elit at venenatis cursus, dolor ligula iaculis dui, ut dignissim enim justo at ligula. Donec interdum dignissim egestas. Nullam nec ultrices enim. Nam quis arcu tincidunt, auctor purus sit amet, aliquam libero. Fusce rhoncus lectus ac imperdiet varius. Sed gravida urna eros, ac luctus justo condimentum nec. Integer ultrices nibh in neque sagittis, at pretium erat pretium. Praesent feugiat purus id iaculis laoreet. Proin in tellus tristique, congue ante in, sodales quam. Sed imperdiet est tortor, eget vestibulum tortor pulvinar volutpat. In et pretium nisl.
 
+## Some sugd reading about managing the project
+
+Code should be tested and have automated tests that run on every push to the main branch at the least. Some useful links to get started:
+
+* [GitHub Actions](https://github.com/features/actions)
+* [Testing ML projects](https://neptune.ai/blog/automated-testing-machine-learning)
+
 ### Project Team
 Dr L. Ipsum, Newcastle University  ([lorem.ipsum@newcastle.ac.uk](mailto:lorem.ipsum@newcastle.ac.uk))  
 Professor D. Sit Amet, XY University  ([d.sit.amet@newcastle.ac.uk](mailto:d.sit.amet@example.com))  
