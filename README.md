@@ -74,11 +74,11 @@ Any links to production environment, video demos and screenshots.
 ## Contributing
 
 ### Issues
-In GitHub issues represent problems, ideas or features that you need to work on. You can create them by going to the Issues tab on the GitHub website. Each issue has a number, a title and then a space for comments if needed. You can add comments to further descrube what needs doing, track how you are intending to do the work or keep track of things that you have tried that didn't work. When you create an issue, use the option on the right hand side of the page to add it to the project for this repo (see below).
+In GitHub issues represent problems, ideas or features that you need to work on. You can create them by going to the Issues tab on the GitHub website. Each issue has a number, a title and then a space for comments if needed. You can add comments to further descrube what needs doing, track how you are intending to do the work or keep track of things that you have tried that didn't work. When you create an issue, use the option on the right hand side of the page to add it to the project for this repo (see below) and then select which column to use.
 
 You can refer to an issue in a commit by including the issue number preceded by a hash in the commit message. If you open the issue relevant commits will be listed. You can add tags or labels to issues, for example to distinguish bugs or updates. Once an issue is completed you should close it.
 
-You don't need to track every single task you do as an issue, however one of the most useful features is the ability to assign an issue to a particualr user. This means you can mark issues you intend to work on or divide work between you.
+You don't need to track every single task you do as an issue, however one of the most useful features is the ability to assign an issue to a particular user so it is worth adding most areas of work. This means you can mark issues you intend to work on or divide work between you.
 
 ### Projects
 GitHub has a Kanban Board feature called 'Projects'. Find the project board for this repo under 'Projects'. You can add issues to the columns, currently Todo, In Progress and Done. You can add more problems (e.g. help wanted) if you need. This adds a layer of functionality on top of issues enabling you to see not only what has been assigned to who, but who has started worked on what.
