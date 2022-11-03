@@ -40,11 +40,23 @@ Any tools or versions of languages needed to run code. For example specific Pyth
 
 ### Installation
 
-How to build or install the applcation.
+Install Python.
 
 ### Running Locally
 
-How to run the application on your local system.
+After cloning the repo into a new directory, make a virtual environment, activate it, and install the dependencies, e.g.
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements_dev.txt
+```
+
+Once finished   
+
+```
+deactivate
+```
 
 ### Running Tests
 
@@ -52,13 +64,9 @@ How to run tests on your local system.
 
 ## Deployment
 
-### Local
-
-Deploying to a production style setup but on the local system. Examples of this would include `venv`, `anaconda`, `Docker` or `minikube`. 
-
 ### Production
 
-See creating_a_python_package.md.
+See [creating_a_python_package.md](creating_a_python_package.md).
 
 ## Usage
 
