@@ -8,4 +8,3 @@ def process(upper_case_word):
     '''
 
     print(upper_case_word.upper())
-    
