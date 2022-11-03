@@ -58,7 +58,7 @@ Deploying to a production style setup but on the local system. Examples of this 
 
 ### Production
 
-Deploying to the production system. Examples of this would include cloud, HPC or virtual machine. 
+See creating_a_python_package.md.
 
 ## Usage
 
@@ -82,6 +82,16 @@ You don't need to track every single task you do as an issue, however one of the
 
 ### Projects
 GitHub has a Kanban Board feature called 'Projects'. Find the project board for this repo under 'Projects'. You can add issues to the columns, currently Todo, In Progress and Done. You can add more problems (e.g. help wanted) if you need. This adds a layer of functionality on top of issues enabling you to see not only what has been assigned to who, but who has started worked on what.
+
+### New metrics
+All new  metrics should be accompanied by documentation describing:
+* What type of data has this metric been designed for (aim for as broad as possible)?
+* Where can the test data be found (prefer publically available sources and provide download instructions)?
+* How should the new code be used?
+
+Additionally, new code should be tested and, where new tests have been written, these should run automatically using GitHub Actions if possible. The process for this has yet to be confirmed.
+
+All code should be well commented, and public functions and modules should be documented using [docstrings](https://realpython.com/documenting-python-code/). Package docstrings should be included at the top of the `_init_.py` file. 
 
 ### Main Branch
 Protected and can only be pushed to via pull requests. Should be considered stable and a representation of production code. Additional rules can be created in Settings > Branches. 
@@ -111,4 +121,4 @@ Please cite the associated papers for this work if you use this code:
 
 
 ## Acknowledgements
-This work was funded by a grant from the UK Research Councils, EPSRC grant ref. EP/L012345/1, “Example project title, please update”.
+This work was funded by The Turing Institute.
