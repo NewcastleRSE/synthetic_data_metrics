@@ -109,6 +109,8 @@ All code should be well commented, and public functions and modules should be do
 ### Main Branch
 Protected and can only be pushed to via pull requests. Should be considered stable and a representation of production code. Additional rules can be created in Settings > Branches. 
 
+For a pull request to be merged, the linting GitHub Action and GitGuardian Security checks must pass. 
+
 ### Dev Branch
 Should be considered fragile, code should compile and run but features may be prone to errors.
 
