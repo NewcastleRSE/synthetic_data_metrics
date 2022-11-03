@@ -40,7 +40,7 @@ Any tools or versions of languages needed to run code. For example specific Pyth
 
 ### Installation
 
-Install Python.
+Install Python. Instructions to follow.
 
 ### Running Locally
 
@@ -60,7 +60,12 @@ deactivate
 
 ### Running Tests
 
-How to run tests on your local system.
+#### Linting
+Use `flake8` to identify formatting errors in your code **before** pushing. 
+
+```
+flake8 path/to/file/to/test
+```
 
 ## Deployment
 
@@ -111,6 +116,9 @@ Should be considered fragile, code should compile and run but features may be pr
 A branch per feature being worked on.
 
 https://nvie.com/posts/a-successful-git-branching-model/
+
+### GitHub Actions
+There is currently one workflow called `lint.yaml` that must successfully complete for a pull request to pass. This runs `flake8` linting. If your run fails, check the logs to see what error(s) linting has identified, fix your code, check linting passes locally, push your changes and create a new pull request.
 
 ## License
 
