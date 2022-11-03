@@ -4,7 +4,7 @@ with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
 requirements = []
-# Include any requirements needed to use your package. 
+# Include any requirements needed to use your package.
 # You don't need anything that comes as part of the standard Python library
 
 setup(
