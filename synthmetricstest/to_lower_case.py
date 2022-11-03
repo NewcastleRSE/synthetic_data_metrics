@@ -1,6 +1,6 @@
 def process(upper_case_word):
     '''
-    Print any word in lower case.
+    Prints any word in lower case.
     Args:
         upper_case_word (str): word to convert
     Returns:
