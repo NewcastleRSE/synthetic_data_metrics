@@ -7,6 +7,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin ante a
 
 Curabitur a tempus arcu. Maecenas blandit risus quam, quis convallis justo pretium in. Suspendisse rutrum, elit at venenatis cursus, dolor ligula iaculis dui, ut dignissim enim justo at ligula. Donec interdum dignissim egestas. Nullam nec ultrices enim. Nam quis arcu tincidunt, auctor purus sit amet, aliquam libero. Fusce rhoncus lectus ac imperdiet varius. Sed gravida urna eros, ac luctus justo condimentum nec. Integer ultrices nibh in neque sagittis, at pretium erat pretium. Praesent feugiat purus id iaculis laoreet. Proin in tellus tristique, congue ante in, sodales quam. Sed imperdiet est tortor, eget vestibulum tortor pulvinar volutpat. In et pretium nisl.
 
+## Some suggested reading about managing the project
+
+Code should be tested and have automated tests that run on every push to the main branch at the least. Some useful links to get started:
+
+* [GitHub Actions](https://github.com/features/actions)
+* [Testing ML projects](https://neptune.ai/blog/automated-testing-machine-learning)
+
 ### Project Team
 Dr L. Ipsum, Newcastle University  ([lorem.ipsum@newcastle.ac.uk](mailto:lorem.ipsum@newcastle.ac.uk))  
 Professor D. Sit Amet, XY University  ([d.sit.amet@newcastle.ac.uk](mailto:d.sit.amet@example.com))  
@@ -33,25 +40,38 @@ Any tools or versions of languages needed to run code. For example specific Pyth
 
 ### Installation
 
-How to build or install the applcation.
+Install Python. Instructions to follow.
 
 ### Running Locally
 
-How to run the application on your local system.
+After cloning the repo into a new directory, make a virtual environment, activate it, and install the dependencies, e.g.
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements_dev.txt
+```
+
+Once finished   
+
+```
+deactivate
+```
 
 ### Running Tests
 
-How to run tests on your local system.
+#### Linting
+Use `flake8` to identify formatting errors in your code **before** pushing. 
+
+```
+flake8 path/to/file/to/test
+```
 
 ## Deployment
 
-### Local
-
-Deploying to a production style setup but on the local system. Examples of this would include `venv`, `anaconda`, `Docker` or `minikube`. 
-
 ### Production
 
-Deploying to the production system. Examples of this would include cloud, HPC or virtual machine. 
+See [creating_a_python_package.md](creating_a_python_package.md).
 
 ## Usage
 
@@ -66,8 +86,28 @@ Any links to production environment, video demos and screenshots.
 
 ## Contributing
 
+### Issues
+In GitHub issues represent problems, ideas or features that you need to work on. You can create them by going to the Issues tab on the GitHub website. Each issue has a number, a title and then a space for comments if needed. You can add comments to further descrube what needs doing, track how you are intending to do the work or keep track of things that you have tried that didn't work. When you create an issue, use the option on the right hand side of the page to add it to the project for this repo (see below) and then select which column to use.
+
+You can refer to an issue in a commit by including the issue number preceded by a hash in the commit message. If you open the issue relevant commits will be listed. You can add tags or labels to issues, for example to distinguish bugs or updates. Once an issue is completed you should close it.
+
+You don't need to track every single task you do as an issue, however one of the most useful features is the ability to assign an issue to a particular user so it is worth adding most areas of work. This means you can mark issues you intend to work on or divide work between you.
+
+### Projects
+GitHub has a Kanban Board feature called 'Projects'. Find the project board for this repo under 'Projects'. You can add issues to the columns, currently Todo, In Progress and Done. You can add more problems (e.g. help wanted) if you need. This adds a layer of functionality on top of issues enabling you to see not only what has been assigned to who, but who has started worked on what.
+
+### New metrics
+All new  metrics should be accompanied by documentation describing:
+* What type of data has this metric been designed for (aim for as broad as possible)?
+* Where can the test data be found (prefer publically available sources and provide download instructions)?
+* How should the new code be used?
+
+Additionally, new code should be tested and, where new tests have been written, these should run automatically using GitHub Actions if possible. The process for this has yet to be confirmed.
+
+All code should be well commented, and public functions and modules should be documented using [docstrings](https://realpython.com/documenting-python-code/). Package docstrings should be included at the top of the `_init_.py` file. 
+
 ### Main Branch
-Protected and can only be pushed to via pull requests. Should be considered stable and a representation of production code.
+Protected and can only be pushed to via pull requests. Should be considered stable and a representation of production code. Additional rules can be created in Settings > Branches. 
 
 ### Dev Branch
 Should be considered fragile, code should compile and run but features may be prone to errors.
@@ -76,6 +116,9 @@ Should be considered fragile, code should compile and run but features may be pr
 A branch per feature being worked on.
 
 https://nvie.com/posts/a-successful-git-branching-model/
+
+### GitHub Actions
+There is currently one workflow called `lint.yaml` that must successfully complete for a pull request to pass. This runs `flake8` linting. If your run fails, check the logs to see what error(s) linting has identified, fix your code, check linting passes locally, push your changes and create a new pull request.
 
 ## License
 
@@ -94,4 +137,4 @@ Please cite the associated papers for this work if you use this code:
 
 
 ## Acknowledgements
-This work was funded by a grant from the UK Research Councils, EPSRC grant ref. EP/L012345/1, “Example project title, please update”.
+This work was funded by The Turing Institute.
