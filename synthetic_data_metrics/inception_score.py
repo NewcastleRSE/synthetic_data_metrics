@@ -1,24 +1,24 @@
 """Implementation of Inception Score.
 
-This metric is for evaluating synthetic image data. Data is passed through 
-Google's pre-trained and open source classifier, Inception-v3. For each image
-passed through the classifier, the output is a label distribution - a value
-between 0 and 1 for each class in the dataset, summing to 1 and providing the
-probability that the image belongs to the class. If the label distributions 
-for all images in the dataset were summed, the result would be the marginal
-distribution. Inception Score then works on the premise that, in a good
-synthetic dataset, every image should distinctly look like something (narrow
-label distributions) and the dataset as a whole should have variety (wide
-marginal distribution). Since these shapes are the opposite of each other,
-a good synthetic image dataset should produce a high KL divergence between the
-label distribution and the marginal distribution for every image. Inception
-Score is the average of this divergence measure across samples. The metric
-produces a value between 1.0 and the number of classes in the dataset. The 
-higher the value the better the dataset. 
+Data is passed through Google's pre-trained and open source classifier, 
+Inception-v3. For each image passed through the classifier, the output is a 
+label distribution - a value between 0 and 1 for each class in the dataset, 
+which together sum to 1 and provide the probability that the image belongs 
+to the class. The sum over all label distributions is the marginal distribution. 
+Inception Score then works on the premise that, in a goodsynthetic dataset, 
+every image should distinctly look like something (narrow label distributions) 
+and the dataset as a whole should have variety (wide marginal distribution). 
+Since these shapes are the opposite of each other, a good synthetic image 
+dataset should produce a high KL divergence between the label distribution 
+and the marginal distribution for every image. 
+
+Inception Score is the average of this divergence measure across samples. The 
+metric produces a value between 1.0 and the number of classes in the dataset. 
+The higher the value the better the dataset. 
 
 Requirements:
-- image data
-- the synthetic dataset or a substantial sample from (paper recommends 50k)
+- Synthetic image data (generated using ImageNet, a subset of ImageNet, or 
+  ImageNet-like data). Paper recommends 50k+ images.
 
 This implementation was sourced from 
 https://machinelearningmastery.com/how-to-implement-the-inception-score-from-scratch-for-evaluating-generated-images/
@@ -43,7 +43,7 @@ def calculate_inception_score(images, n_split=10, eps=1E-16) -> float:
     distribution and marginal distribution) for each image in images.
     
     Args:
-        images (array) : Dataset of images to evaluate.
+        images (array) : Array of images to evaluate.
         n_split (int) : #TODO.
         eps (#TODO) : #TODO.
         
@@ -51,7 +51,7 @@ def calculate_inception_score(images, n_split=10, eps=1E-16) -> float:
         The mean and standard deviation of the scores.
         
     Raises:
-        Checks images is an array of values in the range [0,255]. 
+        Checks images is a nested array of values in the range [0,255]. 
     """
 
     #TODO: add assertions here
