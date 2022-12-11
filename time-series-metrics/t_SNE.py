@@ -52,8 +52,8 @@ def is_categorical(col):
 
 
 def t_sne_2d(real, list_of_synth: list, target: str = None,
-                sample_size=500, perplexity=500,
-                save_plot: bool = False, tag=''):
+             sample_size=500, perplexity=500,
+             save_plot: bool = False, tag=''):
     """A function to plot tSNE 2d embeddings of multiple
         generated datasets along with the original dataset.
 
