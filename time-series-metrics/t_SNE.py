@@ -71,6 +71,7 @@ def t_sne_2d(real, list_of_synth: list, target: str = None,
                             the saved plot. Defaults to ''.
     """
 
+    print('Plotting t-SNE of the real and synthetic data')
     # creat a folder to save plots
     if save_plot:
         Path("plots").mkdir(parents=True, exist_ok=True)
@@ -96,7 +97,7 @@ def t_sne_2d(real, list_of_synth: list, target: str = None,
                                 constrained_layout=True)
         for label, ax in enumerate(fig.axes):
             if label < len(labels):
-                print(f'Plotting label {label}')
+                # print(f'Plotting label {label}')
                 chosen = [label]
                 all_data = []
                 real_temp = real.loc[real[target].isin(chosen)].copy()

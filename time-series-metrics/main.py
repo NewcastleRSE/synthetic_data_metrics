@@ -1,4 +1,4 @@
-"""Driver class for the t-SNE function
+"""Driver class to run multiple metrics for Multivariate Time-series data
 
 Example:
 python main.py
@@ -18,6 +18,7 @@ config['synth_list'] = ['data/synth/gan_synth.csv',
 """
 import pandas as pd
 from t_SNE import t_sne_2d
+from discriminative_score import dis_score
 import argparse
 
 parser = argparse.ArgumentParser(description="PLOTTING t-SNE EMBEDDINGS",
@@ -57,5 +58,11 @@ synth = []
 for file in config['synth_list']:
     synth_data = pd.read_csv(file)
     synth.append(synth_data)
+# t-SNE plot
 t_sne_2d(real, synth, target=target,  sample_size=sample_size,
          perplexity=perplexity, save_plot=save_plot, tag='')
+# Discriminative Score
+# Note that this metric accept only one synthetic dataset at a time,
+# thus synth[0] to use the first synthetic dataset only.
+n = dis_score(real, synth[0], target=target)
+print('DS scores: ', n)
