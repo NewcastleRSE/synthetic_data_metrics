@@ -65,4 +65,4 @@ t_sne_2d(real, synth, target=target,  sample_size=sample_size,
 # Note that this metric accept only one synthetic dataset at a time,
 # thus synth[0] to use the first synthetic dataset only.
 n = dis_score(real, synth[0], target=target)
-print('DS scores: ', n)
+print('DS scores (score for each label in order): ', n)

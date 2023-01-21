@@ -18,24 +18,23 @@ import os
 import tensorflow as tf
 from tensorflow import keras
 from keras import Sequential
-from keras.layers import Dense, LSTM, Dropout
-from sklearn.model_selection import train_test_split
+from keras.layers import Dense, LSTM
 from scipy import stats
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import random
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 pd.options.mode.chained_assignment = None
 tf.get_logger().setLevel('ERROR')
 
 
 # prepare train/test in windows of fixed size.
-def prep_data(X, y, window_size, step):
+def prep_data_updated(X, y):
     data = []
     labels = []
-    for i in range(0, X.shape[0] - window_size, step):
-        _data = X.values[i: i + window_size]
-        _y = stats.mode(y[i: i + window_size])[0][0]
+    for i in range(0, X.shape[0] - 10, 1):
+        _data = X.values[i: i + 10]
+        _y = stats.mode(y[i: i + 10])[0][0]
         data.append(_data)
         labels.append(_y)
     return data, labels
@@ -43,66 +42,43 @@ def prep_data(X, y, window_size, step):
 
 def calculate_ds(real, synth, window_size, step, epochs,
                  verbose, plot_loss):
-    num_features = real.shape[1]
+    real = real.copy()
+    synth = synth.copy()
     if len(real) > len(synth):
         real = real[:len(synth)]
     else:
         synth = synth[:len(real)]
-    # add label column to indicate the source of the data point.
     real['label'] = 1
     synth['label'] = 0
-    # merge real and synth data together
     data = pd.concat([real, synth], axis=0)
-    # shuffle
-    data = data.sample(frac=1).reset_index(drop=True)
-    data_X, data_y = data.drop('label', axis=1), data.label
-    # split into train/test 0.6/0.4
-    X_train, X_test, y_train, y_test = train_test_split(
-        data_X, data_y, test_size=0.4,  shuffle=False, random_state=42)
-    # prepare the training/testing data into batches of window_size
-    X_train, y_train = prep_data(X_train, y_train, window_size, step)
-    X_train = np.asarray(X_train, dtype=np.float32).reshape(
-        -1, window_size, num_features)
-    y_train = np.asarray(y_train)
-    X_test, y_test = prep_data(X_test, y_test, window_size, step)
-    X_test = np.asarray(X_test, dtype=np.float32).reshape(
-        -1, window_size, num_features)
-    y_test = np.asarray(y_test)
-    # binary LSTM classifier architecture
+    X, y = prep_data_updated(data.drop('label', axis=1), data.label)
+    # shuffle the two lists
+    c = list(zip(X, y))
+    random.shuffle(c)
+    X, y = zip(*c)
+    X = np.asarray(X, dtype=np.float32).reshape(-1, 10, 13)
+    y = np.asarray(y)
+    # split into training/testing
+    limit = int(0.8*len(X))
+    X_train, y_train = X[:limit], y[:limit]
+    X_test, y_test = X[limit:], y[limit:]
     model = Sequential()
-    model.add(LSTM(64, input_shape=(window_size, num_features),
+    model.add(LSTM(32, input_shape=(10, 13),
                    activation='tanh', return_sequences=True))
-    model.add(Dropout(0.1))
-    model.add(LSTM(32, activation='tanh'))
-    model.add(Dropout(0.2))
-    model.add(Dense(16, activation='relu'))
+    # model.add(Dropout(0.1))
+    model.add(LSTM(32))
+    # model.add(Dropout(0.2))
+    # model.add(Dense(16,activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
     opt = keras.optimizers.Adam(learning_rate=0.001)
     model.compile(loss='binary_crossentropy', optimizer=opt,
                   metrics=['accuracy'])
-    history = model.fit(x=X_train,
-                        y=y_train,
-                        epochs=epochs,
-                        verbose=verbose,
-                        validation_data=(X_test, y_test),
-                        batch_size=128)
-    if plot_loss:
-        val_acc = history.history['val_accuracy']
-        acc = history.history['accuracy']
-        val_loss = history.history['val_loss']
-        loss = history.history['loss']
-        # fig = plt.figure(figsize=(10, 10))
-        plt.xlabel("Epochs")
-        plt.ylabel("accuracy")
-        plt.plot(val_acc, label='val_acc')
-        plt.plot(val_loss, label='val_loss')
-        plt.plot(acc, label='train_acc')
-        plt.plot(loss, label='train_loss')
-        plt.legend()
-        plt.show()
-    evaluated = model.evaluate(X_test, y_test, verbose=verbose)
-    # print('Model metrics: ', model.metrics_names)
-    # print('Model evaluation: ', evaluated)
+    model.fit(x=X_train,
+              y=y_train,
+              epochs=20,
+              verbose=False,
+              batch_size=64)
+    evaluated = model.evaluate(X_test, y_test, verbose=0)
     score = evaluated[1]
     return np.abs(0.5 - score)
 
