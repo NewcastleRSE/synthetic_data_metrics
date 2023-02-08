@@ -51,15 +51,15 @@ def is_categorical(col):
     return col.dtype.name == 'object'
 
 
-def t_sne_2d(real, list_of_synth: list, target: str = None,
-             sample_size=500, perplexity=500,
+def t_sne_2d(real, synth, target: str = None,
+             sample_size=500, perplexity=40,
              save_plot: bool = False, tag=''):
     """A function to plot tSNE 2d embeddings of multiple
         generated datasets along with the original dataset.
 
     Args:
         real (_type_): The real dataset.
-        list_of_synth (list): list of synthetic datasets.
+        synth: The synthetic datasets.
         target (str): name of the target (label) column. Defaults to None.
         sample_size (int, optional): take only s subset of this length from
                                     each label. Defaults to 500.
@@ -73,21 +73,23 @@ def t_sne_2d(real, list_of_synth: list, target: str = None,
 
     print('Plotting t-SNE of the real and synthetic data')
     # creat a folder to save plots
+    real = real.copy()
+    synth = synth.copy()
     if save_plot:
         Path("plots").mkdir(parents=True, exist_ok=True)
     # check if a column is categorical
     for col in ['time', 'date']:
         if col in real.columns:
             real.drop(col, axis=1, inplace=True)
-        for dataset in list_of_synth:
-            if col in dataset.columns:
-                dataset.drop(col, axis=1, inplace=True)
+        if col in synth.columns:
+            synth.drop(col, axis=1, inplace=True)
     for col in real.columns:
         if is_categorical(real[col]):
             real[col] = pd.factorize(real[col])[0]
-            for dataset in list_of_synth:
-                dataset[col] = pd.factorize(dataset[col])[0]
-    if target is not None:
+            synth[col] = pd.factorize(synth[col])[0]
+    # get number of unique labels
+    num_labels = len(real[target].unique())
+    if num_labels > 1:
         print(f'Splitting datasets by label column ({target})...')
         labels = real[target].unique()
         colors = list(mcolors.BASE_COLORS)
@@ -106,11 +108,10 @@ def t_sne_2d(real, list_of_synth: list, target: str = None,
                 "than the number of samples for each label"
                 real_temp = real_temp[:sample_size]
                 all_data.append(real_temp)
-                for i, dataset in enumerate(list_of_synth):
-                    temp = dataset.loc[dataset[target].isin(chosen)].copy()
-                    temp = temp[:sample_size]
-                    temp.dropna(inplace=True)
-                    all_data.append(temp)
+                synth_temp = synth.loc[synth[target].isin(chosen)].copy()
+                synth_temp = synth_temp[:sample_size]
+                synth_temp.dropna(inplace=True)
+                all_data.append(synth_temp)
                 tsne_results = tsne_2(all_data, target=target,
                                       perplexity=perplexity,
                                       sample_size=sample_size)
@@ -123,7 +124,7 @@ def t_sne_2d(real, list_of_synth: list, target: str = None,
                     if n == 0:
                         ax_label = 'REAL'
                     else:
-                        ax_label = f'SYNTH_{n}'
+                        ax_label = 'SYNTH'
                     labels_for_legend.append(ax_label)
                     ax.scatter(tsne_results.iloc[i:i+sample_size, 0].values,
                                tsne_results.iloc[i:i+sample_size, 1].values,
@@ -145,23 +146,25 @@ def t_sne_2d(real, list_of_synth: list, target: str = None,
         if save_plot:
             plt.savefig(f'plots/{tag} 2D_tSNE_{uuid.uuid4()}')
         plt.show()
-    elif target is None:
+    else:
+        real.drop('ACTIVITY', axis=1, inplace=True)
+        synth.drop('ACTIVITY', axis=1, inplace=True)
         assert sample_size <= len(real), "sample size should be smaller than the size of the dataset" # noqa
         print(f'Plotting {sample_size} samples from each dataset...')
         colors = list(mcolors.BASE_COLORS)
-        fig = plt.figure(constrained_layout=True, figsize=(10, 8))
+        fig = plt.figure(constrained_layout=True, figsize=(10, 7))
         all_data = []
         real_temp = real[:sample_size]
         all_data.append(real_temp)
-        for i, dataset in enumerate(list_of_synth):
-            temp = dataset[:sample_size]
-            all_data.append(temp)
+        synth_temp = synth[:sample_size]
+        all_data.append(synth_temp)
         tsne_results = tsne_3(all_data,  perplexity=perplexity)
         for n, i in enumerate(np.arange(start=0, stop=len(tsne_results),
                                         step=sample_size)):
+            label = 'real' if n == 0 else 'synth'
             plt.scatter(tsne_results.iloc[i:i+sample_size, 0].values,
                         tsne_results.iloc[i:i+sample_size, 1].values,
-                        c=colors[n], alpha=0.2, label=f'dataset_{n}')
+                        c=colors[n], alpha=0.2, label=label)
         plt.title(f'sample_size={sample_size}, perplexity={perplexity}',
                   fontsize=15, color='black')
         # plt.legend()

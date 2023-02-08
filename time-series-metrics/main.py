@@ -26,16 +26,16 @@ parser = argparse.ArgumentParser(description="PLOTTING t-SNE EMBEDDINGS",
 parser.add_argument("--real", type=str,
                     default='data/real/REAL_WISDM.csv',
                     help="full path to real dataset",)
-parser.add_argument("--synth_list", nargs="*", type=str,
-                    default=['data/synth/gan_synth.csv'],
-                    help="list of paths to synth datasets")
-parser.add_argument("--per", type=int, default=30,
+parser.add_argument("--synth", type=str,
+                    default='data/synth/timeGAN_synth.csv',
+                    help="full paths to synth datasets")
+parser.add_argument("--per", type=int, default=40,
                     help='perplexity value for t-SNE')
 parser.add_argument("--sample_size", type=int, default=500,
                     help='number of samples to plot')
 parser.add_argument("--target", type=str, default=None,
                     help='name of the target column')
-parser.add_argument("--save_plot", default=True,
+parser.add_argument("--save_plot", default=False,
                     help='to save the t-SNE plot to disk')
 args = parser.parse_args()
 config = vars(args)
@@ -51,18 +51,21 @@ sample_size = config['sample_size']
 perplexity = config['per']
 save_plot = config['save_plot']
 real = pd.read_csv(config['real'])
-synth = []
+synth = pd.read_csv(config['synth'])
 # config['synth_list'] = ['data/synth/gan_synth.csv',
 #                         'data/synth/par_synth.csv',
 #                         'data/synth/timeGAN_synth.csv']
-for file in config['synth_list']:
-    synth_data = pd.read_csv(file)
-    synth.append(synth_data)
+# for file in config['synth_list']:
+#     synth_data = pd.read_csv(file)
+#     synth.append(synth_data)
+# real = pd.read_csv('data/real/0_real.csv')
+# synth = pd.read_csv('data/synth/timeGAN_synth.csv')
+# synth = synth[synth['ACTIVITY'] == 0]
 # t-SNE plot
 t_sne_2d(real, synth, target=target,  sample_size=sample_size,
          perplexity=perplexity, save_plot=save_plot, tag='')
 # Discriminative Score
 # Note that this metric accept only one synthetic dataset at a time,
 # thus synth[0] to use the first synthetic dataset only.
-n = dis_score(real, synth[0], target=target)
-print('DS scores (score for each label in order): ', n)
+n = dis_score(real, synth, target=target)
+print('Average discriminative score: ', n)

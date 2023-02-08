@@ -42,8 +42,8 @@ def prep_data_updated(X, y):
 
 def calculate_ds(real, synth, window_size, step, epochs,
                  verbose, plot_loss):
-    real = real.copy()
-    synth = synth.copy()
+    # real = real.copy()
+    # synth = synth.copy()
     if len(real) > len(synth):
         real = real[:len(synth)]
     else:
@@ -111,6 +111,8 @@ def dis_score(real, synth, target: str = None, window_size=10,
         scores: A list containing the discriminative scores.
     """
     print("Calculating the discrimiative score of real and synthetic data")
+    real = real.copy()
+    synth = synth.copy()
     # convert categorical columns to numerical
     for col in real.columns:
         if is_categorical(real[col]):
@@ -145,4 +147,4 @@ def dis_score(real, synth, target: str = None, window_size=10,
         result = calculate_ds(real, synth, window_size, step, epochs,
                               verbose, plot_loss)
         disc_scores.append(result)
-    return disc_scores
+    return sum(disc_scores)/len(disc_scores)
