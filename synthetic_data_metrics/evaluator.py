@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 from . import metrics
+import pandas as pd
 
 
 class Inception_Evaluator:
@@ -33,7 +34,7 @@ class Inception_Evaluator:
         """Return __metrics."""
 
         return self.__metrics
-    
+
     def add_metric(self, name, **kwargs):
         """Add a metric to the evaluator.
         Metrics and their arguments are recorded to be run at a later
@@ -65,8 +66,6 @@ class Inception_Evaluator:
             raise NotImplementedError(
                 f"Metric '{name}' is not implemented")
 
-        
-
     def evaluate(self, as_df=False):
         """Compute metrics for real and synth data.
         Run through the metrics dictionary and execute each with its
@@ -93,8 +92,6 @@ class Inception_Evaluator:
         """
 
         results = dict.fromkeys(self.__metrics.keys())
-        print(results)
-        
         metrics_copy = deepcopy(self.__metrics)
         for metric, kwargs in metrics_copy.items():
             metric_name = kwargs.pop("name")
@@ -102,8 +99,7 @@ class Inception_Evaluator:
                 metric_func = getattr(metrics, metric_name)
             else:
                 metric_func = kwargs.pop("func")
-            results[metric] = metric_func(self.synth_data, **kwargs
-            )
+            results[metric] = metric_func(self.synth_data, **kwargs)
 
         self.metric_results = dict(results)
 
@@ -115,3 +111,7 @@ class Inception_Evaluator:
                         tidy_results[k + "-" + vk] = vv
                 except AttributeError:
                     tidy_results[k] = v
+            return pd.DataFrame(tidy_results, index=["value"]).T
+
+        else:
+            return results
