@@ -8,6 +8,9 @@ images, _, _, _ = load_cifar10()
 # shuffle dataset
 shuffle(images)
 
+# reduce dataset size as quick fix to memory allocation error
+images = images[:10000]
+
 # print dataset size
 print('loaded', images.shape)
 
