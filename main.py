@@ -17,8 +17,3 @@ print('loaded', images.shape)
 # calculate inception score
 is_avg, is_std = calculate_inception_score(images)
 print('score', is_avg, is_std)
-
-
-
-
-
