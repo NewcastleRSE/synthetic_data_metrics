@@ -13,4 +13,3 @@ def scale_images(images, new_shape):
     return asarray(images_list)
 
 # function for creating own data split with train_test_split?
-
