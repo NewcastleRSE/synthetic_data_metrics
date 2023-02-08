@@ -1,4 +1,5 @@
-from synthetic_data_metrics.inception_score import calculate_inception_score
+from synthetic_data_metrics.metrics.inception_score import (
+    calculate_inception_score)
 from synthetic_data_metrics.datasets import load_cifar10
 from numpy.random import shuffle
 
