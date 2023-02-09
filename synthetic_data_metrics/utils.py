@@ -4,6 +4,7 @@ from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_v3 import preprocess_input
 from math import floor
 from numpy.random import shuffle
+from scipy import stats
 
 
 # scale an array of images to a new size
@@ -48,3 +49,19 @@ def get_inception_features(images, n_splits=20, eps=1e-16) -> float:
         softmax_scores.append(p_yx)
 
     return softmax_scores
+
+
+# prepare timeseries data in windows of fixed size.
+def prep_data_updated(X, y, window_size, step):
+    data = []
+    labels = []
+    for i in range(0, X.shape[0] - window_size, step):
+        _data = X.values[i: i + window_size]
+        _y = stats.mode(y[i: i + window_size])[0][0]
+        data.append(_data)
+        labels.append(_y)
+    return data, labels
+
+# check if a column is categorical
+def is_categorical(col):
+    return col.dtype.name == 'object'
