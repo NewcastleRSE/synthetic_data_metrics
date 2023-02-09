@@ -1,7 +1,9 @@
 from keras.datasets import cifar10
+import pandas as pd
 
 DATASETS = {
-    'cifar10': 'load_cifar10'
+    'cifar10': 'load_cifar10',
+    'timeseries': 'load_timeseries'
 }
 
 
@@ -15,3 +17,15 @@ def load_cifar10():
     assert y_test.shape == (10000, 1)
 
     return x_train, y_train, x_test, y_test
+
+
+def load_timeseries():
+    real = pd.read_csv(
+        'https://figshare.com/ndownloader/files/39144212?'
+        'private_link=5c282677d58e00da7d5c'
+        )
+    synth = pd.read_csv(
+        'https://figshare.com/ndownloader/files/39144203?'
+        'private_link=5c282677d58e00da7d5c'
+        )
+    return real, synth
