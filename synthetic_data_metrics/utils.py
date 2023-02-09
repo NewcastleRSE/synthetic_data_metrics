@@ -120,3 +120,7 @@ def calculate_tsne(data, perplexity=30) -> pd.DataFrame:
     all_data = np.concatenate(data)
     tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
     return tsne_results
+
+
+def calculate_pca():
+    return None

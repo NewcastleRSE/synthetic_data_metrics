@@ -1,5 +1,5 @@
-from .image_metrics import inception_score
+from .image_metrics import calc_inception_score
 
 __all__ = [
-    "inception_score"
+    "calc_inception_score"
 ]

@@ -1,8 +1,8 @@
 from synthetic_data_metrics.utils import (get_inception_softmax_score,
                                           is_categorical, window_time_series,
                                           calculate_tsne)
-from synthetic_data_metrics.metrics.image_metrics import inception_score
-from synthetic_data_metrics.metrics.discriminative_score import calculate_ds
+from synthetic_data_metrics.metrics.image_metrics import calc_inception_score
+from synthetic_data_metrics.metrics.ts_metrics import calculate_ds
 import pandas as pd
 import random
 import numpy as np
@@ -80,7 +80,7 @@ class Image_Evaluator:
             self.inception_softmax_scores = get_inception_softmax_score(
                                                 self.synth_data, n_splits)
 
-        mean, std = inception_score(self.inception_softmax_scores)
+        mean, std = calc_inception_score(self.inception_softmax_scores)
         return mean, std
 
 
@@ -90,8 +90,8 @@ class TS_Evaluator:
     used to evaluate synthetic time-series data.
 
         Parameters:
-            real (np.ndarray): 4D array containing data with `uint8` type.
-            synth (np.ndarray): 4D array containing data with `uint8` type.
+            real (pd.DataFrame): Any Pandas dataframe.
+            synth (pd.DataFrame): Any Pandas dataframe.
             target (String, optional): The name of the data's target column.
             window_size (int, optional): Determines the size
                 of the moving window.

@@ -1,19 +1,3 @@
-"""Implementation of Discriminative Score for Multivariate Time-series data
-
-A post-hoc binary LSTM classifier is trained to distinguish between real and
-synthetic data examples. Here, real data instances are labelled ‘real’
-and generated data instances are labelled ‘fake’, and the classifier is
-trained in a fully supervised way.
-
-If the comapred datasets include a target(label) column, it must be numeriacl.
-
-The score is (0.5 - classification_accuracy). If the synthetic data is similar
-to real data, the score would be close to zero. The closer the score to 0.5
-means the synthetic data is dissimilar from real data.
-
-Returns:
-    disc_scores: Score between 0 and 0.5 (lower means good quality synth data)
-"""
 import os
 import tensorflow as tf
 from tensorflow import keras
@@ -28,6 +12,26 @@ tf.get_logger().setLevel('ERROR')
 
 def calculate_ds(X_train, y_train, X_test, y_test, epochs,
                  verbose):
+
+    """
+    Implementation of Discriminative Score for Multivariate Time-series data
+
+    A post-hoc binary LSTM classifier is trained to distinguish between real
+    and synthetic data examples. Here, real data instances are labelled ‘real’
+    and generated data instances are labelled ‘fake’, and the classifier is
+    trained in a fully supervised way.
+
+    If the comapred datasets include a target(label) column, it must be
+    numerical.
+
+    The score is (0.5 - classification_accuracy). If the synthetic data is
+    similar to real data, the score would be close to zero. The closer the
+    score to 0.5 means the synthetic data is dissimilar from real data.
+
+        Returns:
+            disc_scores: Score between 0 and 0.5 (lower means good quality
+            synth data)
+    """
 
     seq_length, input_dim = X_train.shape[1], X_train.shape[2]
     model = Sequential()
