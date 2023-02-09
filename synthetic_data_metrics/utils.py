@@ -5,6 +5,11 @@ from keras.applications.inception_v3 import preprocess_input
 from math import floor
 from numpy.random import shuffle
 from scipy import stats
+from sklearn.manifold import TSNE
+import numpy as np
+import pandas as pd
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 # scale an array of images to a new size
@@ -66,3 +71,12 @@ def prep_data_updated(X, y, window_size, step):
 # check if a column is categorical
 def is_categorical(col):
     return col.dtype.name == 'object'
+
+# run the t-SNE algorithm on the data
+def calculate_tsne(data, perplexity=30):
+        n_components = 2
+        tsne = TSNE(n_components=n_components, perplexity=perplexity,
+                    n_iter=500, random_state=123)
+        all_data = np.concatenate(data)
+        tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
+        return tsne_results
