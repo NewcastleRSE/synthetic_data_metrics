@@ -19,9 +19,9 @@ Newcastle University
 
 ### Prerequisites
 
-Python 3.8.16 - 3.10.10  
+Python 3.8 - 3.10  
 
-*We highly recommand that uses the version between 3.8.16 and 3.10.10. With these versions, dependencies can be installed properly.
+*We highly recommand that uses the version between 3.8 and 3.10. With these versions, dependencies can be installed properly.
 
 
 ### Installation
