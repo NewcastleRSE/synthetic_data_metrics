@@ -47,4 +47,3 @@ class Image_Evaluator:
         else:
             # should run some checks here to ensure data looks correct.
             return inception_score(self.inception_softmax_scores)
-
