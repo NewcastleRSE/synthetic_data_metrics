@@ -90,21 +90,21 @@ class TS_Evaluator:
         # Naively remove the time channel if it exists
         for col in ['time', 'Time', 'Date', 'date']:
             if col in self.real_data.columns:
-                self.real.drop(col, axis=1, inplace=True)
-            if col in self.synth.columns:
-                self.synth.drop(col, axis=1, inplace=True)
+                self.real_data.drop(col, axis=1, inplace=True)
+            if col in self.synth_data.columns:
+                self.synth_data.drop(col, axis=1, inplace=True)
         disc_scores = []
         # check if the datasets include a target column,
         # divide the datasets by label and calculate a score for each label
         if self.target is not None:
             # retrive all the unique labels
-            labels = self.real[self.target].unique()
+            labels = self.real_data[self.target].unique()
             # slice the dataset into subsets by label
             # and calculate a score for each subset separetely
             for label in labels:
                 chosen = [label]
-                real_temp = self.real.loc[self.real[self.target].isin(chosen)].copy() # noqa
-                synth_temp = self.synth.loc[self.synth[self.target].isin(chosen)].copy() # noqa
+                real_temp = self.real_data.loc[self.real_data[self.target].isin(chosen)].copy() # noqa
+                synth_temp = self.synth_data.loc[self.synth_data[self.target].isin(chosen)].copy() # noqa
                 real_temp.drop(self.target, axis=1, inplace=True)
                 synth_temp.drop(self.target, axis=1, inplace=True)
                 if len(real_temp) > len(synth_temp):
@@ -129,11 +129,28 @@ class TS_Evaluator:
                 X_train, y_train = X[:limit], y[:limit]
                 X_test, y_test = X[limit:], y[limit:]
                 ds_temp = calculate_ds(X_train, y_train, X_test, y_test,
-                                       self.epochs, self.verbose)
+                                       self.epoch, self.verbose)
                 disc_scores.append(ds_temp)
         # else if the dataset has no target column pass it as a whole
         else:
-            result = calculate_ds(self.real, self.synth, self.epochs,
+            real_temp['label'] = 1
+            synth_temp['label'] = 0
+            data = pd.concat([real_temp, synth_temp], axis=0)
+            X, y = prep_data_updated(data.drop('label', axis=1),
+                                        data.label,
+                                        window_size=self.window_size,
+                                        step=self.step)
+            # shuffle the two lists
+            c = list(zip(X, y))
+            random.shuffle(c)
+            X, y = zip(*c)
+            X = np.asarray(X, dtype=np.float32)
+            y = np.asarray(y)
+            # split into training/testing
+            limit = int(0.8*len(X))
+            X_train, y_train = X[:limit], y[:limit]
+            X_test, y_test = X[limit:], y[limit:]
+            result = calculate_ds(X_train, y_train, X_test, y_test, self.epoch,
                                   self.verbose)
             disc_scores.append(result)
         return sum(disc_scores)/len(disc_scores)
