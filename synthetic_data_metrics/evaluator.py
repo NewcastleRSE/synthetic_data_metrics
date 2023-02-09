@@ -55,8 +55,16 @@ class Image_Evaluator:
 
 
 class TS_Evaluator:
-    '''
-    pass
+    '''The central time series evaluator, used to hold and evaluate data
+    via metrics and visualisation.
+    Parameters
+    ----------
+    synth : a dataframe of synthetic time series data.
+    real : a dataframe of real time series data to compare against.
+    Returns
+    -------
+    Evaluator
+        An `Evaluator` object ready for a metric to be called.
     '''
 
     def __init__(self, real, synth, target=None,
