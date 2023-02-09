@@ -80,14 +80,8 @@ class Image_Evaluator:
             self.inception_softmax_scores = get_inception_softmax_score(
                                                 self.synth_data, n_splits)
 
-            # then run metric.
-            mean, std = inception_score(self.inception_softmax_scores)
-            return mean, std
-
-        else:
-            # should run some checks here to ensure data looks correct.
-            mean, std = inception_score(self.inception_softmax_scores)
-            return mean, std
+        mean, std = inception_score(self.inception_softmax_scores)
+        return mean, std
 
 
 class TS_Evaluator:
