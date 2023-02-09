@@ -72,11 +72,12 @@ def prep_data_updated(X, y, window_size, step):
 def is_categorical(col):
     return col.dtype.name == 'object'
 
+
 # run the t-SNE algorithm on the data
 def calculate_tsne(data, perplexity=30):
-        n_components = 2
-        tsne = TSNE(n_components=n_components, perplexity=perplexity,
-                    n_iter=500, random_state=123)
-        all_data = np.concatenate(data)
-        tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
-        return tsne_results
+    n_components = 2
+    tsne = TSNE(n_components=n_components, perplexity=perplexity,
+                n_iter=500, random_state=123)
+    all_data = np.concatenate(data)
+    tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
+    return tsne_results

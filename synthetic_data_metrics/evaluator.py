@@ -152,9 +152,9 @@ class TS_Evaluator:
             synth_temp['label'] = 0
             data = pd.concat([real_temp, synth_temp], axis=0)
             X, y = prep_data_updated(data.drop('label', axis=1),
-                                        data.label,
-                                        window_size=self.window_size,
-                                        step=self.step)
+                                     data.label,
+                                     window_size=self.window_size,
+                                     step=self.step)
             # shuffle the two lists
             c = list(zip(X, y))
             random.shuffle(c)
@@ -170,10 +170,9 @@ class TS_Evaluator:
             disc_scores.append(result)
         return sum(disc_scores)/len(disc_scores)
 
-    
-    def t_SNE(self,sample_size=500, perplexity=40,
+    def t_SNE(self, sample_size=500, perplexity=40,
               save_plot: bool = False, tag=''):
-        
+
         """A function to plot tSNE 2d embeddings of multiple
         generated datasets along with the original dataset.
 
@@ -228,16 +227,16 @@ class TS_Evaluator:
                     "than the number of samples for each label"
                     real_temp = real_temp[:sample_size]
                     all_data.append(real_temp)
-                    synth_temp = synth.loc[synth[self.target].isin(chosen)].copy()
+                    synth_temp = synth.loc[synth[self.target].isin(chosen)].copy() # noqa
                     synth_temp = synth_temp[:sample_size]
                     synth_temp.dropna(inplace=True)
                     all_data.append(synth_temp)
                     for dataset in all_data:
                         dataset.drop([self.target], axis=1, inplace=True)
                     tsne_results = calculate_tsne(all_data,
-                                        perplexity=perplexity)
+                                                  perplexity=perplexity)
                     ax.set_title(f'label {label}', fontsize=10,
-                                color='black', pad=10)
+                                 color='black', pad=10)
                     labels_for_legend = []
                     for n, i in enumerate(np.arange(start=0,
                                                     stop=len(tsne_results),
@@ -247,15 +246,15 @@ class TS_Evaluator:
                         else:
                             ax_label = 'SYNTH'
                         labels_for_legend.append(ax_label)
-                        ax.scatter(tsne_results.iloc[i:i+sample_size, 0].values,
-                                tsne_results.iloc[i:i+sample_size, 1].values,
-                                c=colors[n], alpha=0.2, label=ax_label)
+                        ax.scatter(tsne_results.iloc[i:i+sample_size, 0].values, # noqa
+                                   tsne_results.iloc[i:i+sample_size, 1].values, # noqa
+                                   c=colors[n], alpha=0.2, label=ax_label)
                     fig_dim = 45
                     plt.xlim(-fig_dim, fig_dim)
                     plt.ylim(-fig_dim, fig_dim)
                     fig.suptitle(f'sample_size={sample_size}'
-                                f' perplexity={perplexity}',
-                                fontsize=15, color='black')
+                                 f' perplexity={perplexity}',
+                                 fontsize=15, color='black')
                     # ax.axis('scaled')
                     # ax.legend()
                     leg = ax.legend()
@@ -288,7 +287,7 @@ class TS_Evaluator:
                             tsne_results.iloc[i:i+sample_size, 1].values,
                             c=colors[n], alpha=0.2, label=label)
             plt.title(f'sample_size={sample_size}, perplexity={perplexity}',
-                    fontsize=15, color='black')
+                      fontsize=15, color='black')
             # plt.legend()
             # legend = plt.legend(loc="upper right", edgecolor="black")
             # legend.get_frame().set_alpha(None)
