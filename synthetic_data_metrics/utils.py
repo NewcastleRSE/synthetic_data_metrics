@@ -33,7 +33,7 @@ def scale_images(images, new_shape) -> np.ndarray:
     return images_array
 
 
-def get_inception_features(images, n_splits=10) -> List[np.ndarray]:
+def get_inception_softmax_score(images, n_splits=10) -> List[np.ndarray]:
     """
         Returns a list of ndarrays containing the predictions of a model
             trained on a shuffled image set.

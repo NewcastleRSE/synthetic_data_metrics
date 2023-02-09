@@ -1,4 +1,4 @@
-from synthetic_data_metrics.utils import (get_inception_features,
+from synthetic_data_metrics.utils import (get_inception_softmax_score,
                                           is_categorical, prep_data_updated,
                                           calculate_tsne)
 from synthetic_data_metrics.metrics.image_metrics import inception_score
@@ -77,7 +77,7 @@ class Image_Evaluator:
                     for each image split.
         """
         if self.inception_softmax_scores is None:
-            self.inception_softmax_scores = get_inception_features(
+            self.inception_softmax_scores = get_inception_softmax_score(
                                                 self.synth_data, n_splits)
 
             # then run metric.
