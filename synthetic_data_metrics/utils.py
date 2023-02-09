@@ -1,3 +1,4 @@
+from typing import List
 from skimage.transform import resize
 from numpy import asarray
 from keras.applications.inception_v3 import InceptionV3
@@ -5,36 +6,47 @@ from keras.applications.inception_v3 import preprocess_input
 from math import floor
 from numpy.random import shuffle
 from scipy import stats
+import numpy as np
+import pandas as pd
 
 
-# scale an array of images to a new size
-def scale_images(images, new_shape):
+def scale_images(images, new_shape) -> np.ndarray:
+    """
+    Returns an array of images scaled to a new shape.
+
+        Parameters:
+                images (np.ndarray): A 4d ndarray of uint8
+                new_shape (Tuple[int, int, int]): New size specifications of
+                    images
+        Returns:
+            images_array (np.ndarray): Ndarray of uint8 resizes to match the
+                size of new_shape
+    """
     images_list = list()
     for image in images:
-        # resize with nearest neighbor interpolation
         new_image = resize(image, new_shape, 0)
-        # store
         images_list.append(new_image)
-    return asarray(images_list)
+        images_array = asarray(images_list)
+    return images_array
 
-# function for creating own data split with train_test_split?
 
+def get_inception_features(images, n_splits=10) -> List[np.ndarray]:
+    """
+        Returns a list of ndarrays containing the predictions of a model
+            trained on a shuffled image set.
 
-def get_inception_features(images, n_splits=20, eps=1e-16) -> float:
-
-    print('retrieving inception softmax scores')
-
+        Parameters:
+                images (np.ndarray): A 4d ndarray of uint8
+                n_splits (int): Number of partitions the data is split into.
+        Returns:
+                softmax_scores (List[np.ndarray]): List of ndarrays containing
+                    model predictions.
+    """
     shuffle(images)
-
     model = InceptionV3()
-
-    # enumerate splits of images/predictions
     softmax_scores = list()
     n_part = floor(images.shape[0] / n_splits)
-
     for i in range(n_splits):
-        print('iteration {} of {}'.format(i+1, n_splits))
-
         ix_start, ix_end = i * n_part, (i + 1) * n_part
         subset = images[ix_start:ix_end]
         # convert from uint8 to float32
@@ -45,23 +57,42 @@ def get_inception_features(images, n_splits=20, eps=1e-16) -> float:
         subset = preprocess_input(subset)
         # predict p(y|x)
         p_yx = model.predict(subset)
-
         softmax_scores.append(p_yx)
-
     return softmax_scores
 
 
-# prepare timeseries data in windows of fixed size.
-def prep_data_updated(X, y, window_size, step):
+def prep_data_updated(x, y, window_size, step) -> (List[pd.array], List[int]):
+    """
+        Returns two lists, one of a time series broken into windows, and
+            another of the labels for each of those windows.
+
+        Parameters:
+                x (pd.Dataframe): Dataframe of predictor variables.
+                y (pd.Series): Series of response variables.
+                window_size (int): Size of each window.
+                step (int): Number of windows x is broken into.
+        Returns:
+                data (List[pd.array]): x converted into a step length List of
+                    pd.array ofsize window_size.
+                labels (List[int]): List of int labels for each array in data.
+    """
     data = []
     labels = []
-    for i in range(0, X.shape[0] - window_size, step):
-        _data = X.values[i: i + window_size]
+    for i in range(0, x.shape[0] - window_size, step):
+        _data = x.values[i: i + window_size]
         _y = stats.mode(y[i: i + window_size])[0][0]
         data.append(_data)
         labels.append(_y)
     return data, labels
 
-# check if a column is categorical
+
 def is_categorical(col):
+    """
+        Checks if the input column is categorical.
+
+        Parameters:
+                col (pd.Series): Series of input variables.
+        Returns:
+                True if column is categorical, False otherwise.
+    """
     return col.dtype.name == 'object'
