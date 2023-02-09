@@ -64,7 +64,7 @@ def get_inception_softmax_score(images, n_splits=10) -> List[np.ndarray]:
     return softmax_scores
 
 
-def prep_data_updated(x, y, window_size, step) -> (List[pd.array], List[int]):
+def window_time_series(x, y, window_size, step) -> (List[pd.array], List[int]):
     """
         Returns two lists, one of a time series broken into windows, and
             another of the labels for each of those windows.

@@ -1,5 +1,5 @@
 from synthetic_data_metrics.utils import (get_inception_softmax_score,
-                                          is_categorical, prep_data_updated,
+                                          is_categorical, window_time_series,
                                           calculate_tsne)
 from synthetic_data_metrics.metrics.image_metrics import inception_score
 from synthetic_data_metrics.metrics.discriminative_score import calculate_ds
@@ -205,10 +205,10 @@ class TS_Evaluator:
                 real_temp['label'] = 1
                 synth_temp['label'] = 0
                 data = pd.concat([real_temp, synth_temp], axis=0)
-                X, y = prep_data_updated(data.drop('label', axis=1),
-                                         data.label,
-                                         window_size=self.window_size,
-                                         step=self.step)
+                X, y = window_time_series(data.drop('label', axis=1),
+                                          data.label,
+                                          window_size=self.window_size,
+                                          step=self.step)
                 # shuffle the two lists
                 c = list(zip(X, y))
                 random.shuffle(c)
@@ -227,10 +227,10 @@ class TS_Evaluator:
             real_temp['label'] = 1
             synth_temp['label'] = 0
             data = pd.concat([real_temp, synth_temp], axis=0)
-            X, y = prep_data_updated(data.drop('label', axis=1),
-                                     data.label,
-                                     window_size=self.window_size,
-                                     step=self.step)
+            X, y = window_time_series(data.drop('label', axis=1),
+                                      data.label,
+                                      window_size=self.window_size,
+                                      step=self.step)
             # shuffle the two lists
             c = list(zip(X, y))
             random.shuffle(c)
