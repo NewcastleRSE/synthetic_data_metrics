@@ -87,7 +87,7 @@ def prep_data_updated(x, y, window_size, step) -> (List[pd.array], List[int]):
     return data, labels
 
 
-def is_categorical(col):
+def is_categorical(col) -> bool:
     """
         Checks if the input column is categorical.
 
@@ -99,7 +99,7 @@ def is_categorical(col):
     return col.dtype.name == 'object'
 
 
-def calculate_tsne(data, perplexity=30):
+def calculate_tsne(data, perplexity=30) -> pd.DataFrame:
     """
         Returns the results of running the t-SNE algorithm on input data.
 
