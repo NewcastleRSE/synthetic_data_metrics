@@ -9,6 +9,8 @@ from numpy.random import shuffle
 from scipy import stats
 import numpy as np
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 def scale_images(images, new_shape) -> np.ndarray:
