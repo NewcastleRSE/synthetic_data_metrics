@@ -4,6 +4,7 @@ from numpy import asarray
 from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_v3 import preprocess_input
 from math import floor
+from sklearn.manifold import TSNE
 from numpy.random import shuffle
 from scipy import stats
 import numpy as np
@@ -96,3 +97,24 @@ def is_categorical(col):
                 True if column is categorical, False otherwise.
     """
     return col.dtype.name == 'object'
+
+
+def calculate_tsne(data, perplexity=30):
+    """
+        Returns the results of running the t-SNE algorithm on input data.
+
+        Parameters:
+                data (List[pd.Dataframe]): List of two Dataframes containing
+                    one real time series and one synthetic time series.
+                perplexity (int): Perplexity of manifold learning algorithm,
+                    number of nearest neighbors used.
+        Returns:
+                tsne_results (pd.Dataframe): Dataframe containing the results
+                    of the t-SNE algorithm.
+    """
+    n_components = 2
+    tsne = TSNE(n_components=n_components, perplexity=perplexity,
+                n_iter=500, random_state=123)
+    all_data = np.concatenate(data)
+    tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
+    return tsne_results
