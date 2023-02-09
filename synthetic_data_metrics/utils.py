@@ -62,6 +62,7 @@ def prep_data_updated(X, y, window_size, step):
         labels.append(_y)
     return data, labels
 
+
 # check if a column is categorical
 def is_categorical(col):
     return col.dtype.name == 'object'
