@@ -1,6 +1,5 @@
 # PackageName
 ## About
-## About
 'Package name' is result of a project funded by the Alan Turing Institute. Packagename is a Python library for evaluating synthetic data quality across a wide range of data types (image, tabular, time series, language) and approaches to evaluation. Synthetic data is a crucial part of many machine learning,  data science and other  applications. The performance of these applications relies on the  ‘quality’ and diversity of the synthetic data used. We understand that no clear definition of ‘quality’ (where quality is a measure of how indistinguishable the synthetic data is from the real data) exist in relation to synthetic data. In this package we provide an expanding list of metrics that open sourced and community driven. 
 
 The following approaches to evaluation are currently provided:
