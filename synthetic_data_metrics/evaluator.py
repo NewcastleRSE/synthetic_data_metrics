@@ -376,4 +376,3 @@ class TS_Evaluator:
                 plt.savefig(f'plots/{tag} 2D_tSNE_{uuid.uuid4()}')
             # plt.show()
             return plt
-        
