@@ -19,19 +19,22 @@ Newcastle University
 
 ### Prerequisites
 
-Python 3.6 (should probably be upped)
+Python 3.8.16 - 3.10.10  
 
-Something about hardware requirements here
+*We highly recommand that uses the version between 3.8.16 and 3.10.10. With these versions, dependencies can be installed properly.
+
 
 ### Installation
 
-After cloning the repo into a new directory, make a virtual environment, activate it, and install the dependencies, e.g.
+After cloning the repo into a new directory, make a virtual environment called 'venv', activate it, and install the dependencies using pip tool, e.g.
 
 ```
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements_dev.txt
+pip install -r requirements.txt
 ```
+
+**Note: the requirements file contains all the dependencies needed, and it works well when the version of python is in the mentioned range.**
 
 Once finished   
 
