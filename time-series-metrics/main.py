@@ -20,6 +20,7 @@ import pandas as pd
 from t_SNE import t_sne_2d
 from discriminative_score import dis_score
 import argparse
+from dataset import load_timeseries
 
 parser = argparse.ArgumentParser(description="PLOTTING t-SNE EMBEDDINGS",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter) # noqa
@@ -62,10 +63,12 @@ synth = pd.read_csv(config['synth'])
 # synth = pd.read_csv('data/synth/timeGAN_synth.csv')
 # synth = synth[synth['ACTIVITY'] == 0]
 # t-SNE plot
-t_sne_2d(real, synth, target=target,  sample_size=sample_size,
+real, synth = load_timeseries()
+plot = t_sne_2d(real, synth, target=target,  sample_size=sample_size,
          perplexity=perplexity, save_plot=save_plot, tag='')
+plot.show()
 # Discriminative Score
 # Note that this metric accept only one synthetic dataset at a time,
 # thus synth[0] to use the first synthetic dataset only.
-n = dis_score(real, synth, target=target)
-print('Average discriminative score: ', n)
+# n = dis_score(real, synth, target=target)
+# print('Average discriminative score: ', n)

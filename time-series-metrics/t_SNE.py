@@ -24,19 +24,8 @@ import uuid
 import matplotlib.colors as mcolors
 import math
 from pathlib import Path
+from utils import is_categorical
 warnings.filterwarnings("ignore", category=FutureWarning)
-
-
-def tsne_2(data, target, perplexity=30, sample_size=500):
-    for dataset in data:
-        dataset.drop([target], axis=1, inplace=True)
-    n_components = 2
-    tsne = TSNE(n_components=n_components, perplexity=perplexity,
-                n_iter=500, random_state=123)
-    all_data = np.concatenate(data)
-    tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
-    return tsne_results
-
 
 def tsne_3(data, perplexity=30):
     n_components = 2
@@ -45,11 +34,6 @@ def tsne_3(data, perplexity=30):
     all_data = np.concatenate(data)
     tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
     return tsne_results
-
-
-def is_categorical(col):
-    return col.dtype.name == 'object'
-
 
 def t_sne_2d(real, synth, target: str = None,
              sample_size=500, perplexity=40,
@@ -77,8 +61,8 @@ def t_sne_2d(real, synth, target: str = None,
     synth = synth.copy()
     if save_plot:
         Path("plots").mkdir(parents=True, exist_ok=True)
-    # check if a column is categorical
-    for col in ['time', 'date']:
+    # Naively remove the time channel if it exists
+    for col in ['time', 'Time', 'Date', 'date']:
         if col in real.columns:
             real.drop(col, axis=1, inplace=True)
         if col in synth.columns:
@@ -112,9 +96,10 @@ def t_sne_2d(real, synth, target: str = None,
                 synth_temp = synth_temp[:sample_size]
                 synth_temp.dropna(inplace=True)
                 all_data.append(synth_temp)
-                tsne_results = tsne_2(all_data, target=target,
-                                      perplexity=perplexity,
-                                      sample_size=sample_size)
+                for dataset in all_data:
+                    dataset.drop([target], axis=1, inplace=True)
+                tsne_results = tsne_3(all_data,
+                                      perplexity=perplexity)
                 ax.set_title(f'label {label}', fontsize=10,
                              color='black', pad=10)
                 labels_for_legend = []
@@ -145,7 +130,8 @@ def t_sne_2d(real, synth, target: str = None,
         # plt.legend()
         if save_plot:
             plt.savefig(f'plots/{tag} 2D_tSNE_{uuid.uuid4()}')
-        plt.show()
+        # plt.show()
+        return plt
     else:
         real.drop('ACTIVITY', axis=1, inplace=True)
         synth.drop('ACTIVITY', axis=1, inplace=True)
@@ -176,4 +162,5 @@ def t_sne_2d(real, synth, target: str = None,
             lh.set_alpha(1)
         if save_plot:
             plt.savefig(f'plots/{tag} 2D_tSNE_{uuid.uuid4()}')
-        plt.show()
+        # plt.show()
+        return plt
