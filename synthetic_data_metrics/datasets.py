@@ -1,11 +1,6 @@
 from keras.datasets import cifar10
 import pandas as pd
 
-DATASETS = {
-    'cifar10': 'load_cifar10',
-    'timeseries': 'load_timeseries'
-}
-
 
 def load_cifar10():
     """
