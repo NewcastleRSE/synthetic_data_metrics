@@ -83,7 +83,7 @@ images, _, _, _ = load_cifar10()
 Intialise the image evaluator and feed in your data:
 
 ```python
-img_evaluator = evaluator.Image_Evaluator(images)
+img_evaluator = evaluator.Image_Evaluator(synth, real)
 ```
 
 Call your desired metric(s):
