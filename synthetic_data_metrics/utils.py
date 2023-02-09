@@ -18,12 +18,12 @@ def scale_images(images, new_shape) -> np.ndarray:
     Returns an array of images scaled to a new shape.
 
         Parameters:
-                images (np.ndarray): A 4d ndarray of uint8
+                images (np.ndarray): A 4d ndarray of `uint8`.
                 new_shape (Tuple[int, int, int]): New size specifications of
-                    images
+                    images.
         Returns:
             images_array (np.ndarray): Ndarray of uint8 resizes to match the
-                size of new_shape
+                size of new_shape.
     """
     images_list = list()
     for image in images:
@@ -35,11 +35,11 @@ def scale_images(images, new_shape) -> np.ndarray:
 
 def get_inception_softmax_score(images, n_splits=10) -> List[np.ndarray]:
     """
-        Returns a list of ndarrays containing the predictions of a model
-            trained on a shuffled image set.
+        Returns a list of np.ndarrays containing the class predictions
+        for each image in the passed image subset.
 
         Parameters:
-                images (np.ndarray): A 4d ndarray of uint8
+                images (np.ndarray): A 4d ndarray of `uint8`.
                 n_splits (int): Number of partitions the data is split into.
         Returns:
                 softmax_scores (List[np.ndarray]): List of ndarrays containing
