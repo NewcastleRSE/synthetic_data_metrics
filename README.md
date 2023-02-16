@@ -89,8 +89,8 @@ img_evaluator = evaluator.Image_Evaluator(synth, real)
 Call your desired metric(s):
 ```
 img_evaluator.inception_score(n_splits=20)
-img_evaluator.IoU()
-img_evaluator.DICE()
+img_evaluator.dim_reduced_iou_score()
+img_evaluator.dim_reduced_dice_score()
 ```
 
 
