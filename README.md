@@ -91,6 +91,7 @@ Call your desired metric(s):
 img_evaluator.inception_score(n_splits=20)
 img_evaluator.dim_reduced_iou_score()
 img_evaluator.dim_reduced_dice_score()
+img_evaluator.plot_2PC_compare()
 ```
 
 
