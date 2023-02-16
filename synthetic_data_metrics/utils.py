@@ -5,6 +5,7 @@ from keras.applications.inception_v3 import InceptionV3
 from keras.applications.inception_v3 import preprocess_input
 from math import floor
 from sklearn.manifold import TSNE
+from sklearn.decomposition import PCA
 from numpy.random import shuffle
 import random
 from scipy import stats
@@ -32,6 +33,24 @@ def scale_images(images, new_shape) -> np.ndarray:
         images_list.append(new_image)
         images_array = asarray(images_list)
     return images_array
+
+
+def get_dataset_reshaped(dataset):
+    """
+        Returns a reshaped np.ndarray of size
+        (length_of_dataset, height*width of image).
+
+        Parameters:
+                images (np.ndarray): A 4d ndarray of `uint8`.
+        Returns:
+                reshaped np.ndarray of size
+                (length_of_dataset, height*width of image).
+    """
+    length_of_dataset = len(dataset)
+    h, w, c = dataset[1].shape
+    dataset_use = dataset[:, :, :, 1]
+    dataset_reshaped = dataset_use.reshape(length_of_dataset, h*w)
+    return dataset_reshaped
 
 
 def get_inception_softmax_score(images, n_splits=10) -> List[np.ndarray]:
@@ -63,6 +82,23 @@ def get_inception_softmax_score(images, n_splits=10) -> List[np.ndarray]:
         p_yx = model.predict(subset)
         softmax_scores.append(p_yx)
     return softmax_scores
+
+
+def calculate_2pca(dataset, n_components=2):
+    """
+        Returns a 2d np.ndarray containing two principal
+        components for given dataset.
+
+        Parameters:
+                images (np.ndarray): A 4d ndarray of `uint8`.
+        Returns:
+                2d np.ndarray containing two principal
+                components for given dataset
+    """
+    dataset_reshaped = get_dataset_reshaped(dataset)
+    pca_2 = PCA(n_components=2)
+    pca_2_reduced = pca_2.fit_transform(dataset_reshaped)
+    return pca_2_reduced
 
 
 def window_time_series(x, y, window_size, step) -> (List[pd.array], List[int]):
@@ -215,7 +251,3 @@ def calculate_tsne(data, perplexity=30) -> pd.DataFrame:
     all_data = np.concatenate(data)
     tsne_results = pd.DataFrame(tsne.fit_transform(all_data))
     return tsne_results
-
-
-def calculate_pca():
-    return None

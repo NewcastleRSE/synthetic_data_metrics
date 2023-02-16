@@ -92,5 +92,23 @@ def plot_tsne(real, synth, sample_size, perplexity,
         return plt
 
 
-def plot_2pca():
+def plot_2pca(dataset1_2PC, dataset2_2PC, save_plot=False):
+    """Makes a scatter plot of the first two principal components
+    of both datasets.
+    Args:
+        - features (arrays) : Two array lists to plot and boolean
+        if you want to save the plot.
+    Returns:
+        Shows plot.
+    """
+    if save_plot:
+        Path("plots").mkdir(parents=True, exist_ok=True)
+    d1_2PCA = plt.scatter(dataset1_2PC[:, 0], dataset1_2PC[:, 1])
+    d2_2PCA = plt.scatter(dataset2_2PC[:, 0], dataset2_2PC[:, 1])
+    plt.legend = plt.legend((d1_2PCA, d2_2PCA),
+                            ('2 PC of 1st dataset', '2 PC of 2nd dataset'),
+                            loc="lower left")
+    if save_plot:
+        plt.savefig('plots/Compare_2PCA_of_2datasets')
+    plt.show()
     return None

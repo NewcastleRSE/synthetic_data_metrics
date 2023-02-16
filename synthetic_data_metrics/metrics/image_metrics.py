@@ -3,6 +3,8 @@ from numpy import log
 from numpy import mean
 from numpy import std
 from numpy import exp
+import numpy as np
+from sklearn.metrics import jaccard_score
 
 
 def calc_inception_score(softmax_list,  eps=1e-16) -> float:
@@ -53,9 +55,41 @@ def calc_fid():
     return None
 
 
-def calc_dim_reduced_iou():
-    return None
+def calc_dim_reduced_iou(dataset1_2PC, dataset2_2PC):
+    """Calculates the Dimensionality reduced IoU Score.
+
+    This function calculates the IoU Score between given 2d numpy array
+    assuming them as muliclass and apply weighted average.
+
+    Args:
+        - features (array) : list of Array of features to evaluate.
+    Returns:
+        The IoU score.
+
+    Raises:
+        Checks number and size of images in each dataset are same .
+    """
+    dataset1_2PC_flatten = np.round(dataset1_2PC.flatten())
+    dataset2_2PC_flatten = np.round(dataset2_2PC.flatten())
+    j_score = jaccard_score(dataset1_2PC_flatten, dataset2_2PC_flatten,
+                            average='weighted')
+    return j_score
 
 
-def calc_dim_reduced_dice():
-    return None
+def calc_dim_reduced_dice(dataset1_2PC, dataset2_2PC):
+    """Calculates the Dimensionality reduced Dice Score.
+
+    This function calculates the Dice Score between given 2d numpy array
+    assuming them as muliclass and apply weighted average.
+
+    Args:
+        - features (array) : list of Array of features to evaluate.
+    Returns:
+        The Dice score.
+
+    Raises:
+        Checks number and size of images in each dataset are same .
+    """
+    j_score = calc_dim_reduced_iou(dataset1_2PC, dataset2_2PC)
+    dice_score = (2*j_score)/(1+j_score)
+    return dice_score
